@@ -4,10 +4,13 @@ exports.config = {
     REST: {
       endpoint: 'http://localhost:8080/v1/cleaning-sessions'
     },
-    JSONResponse: {}
+    JSONResponse: {},
+    Api: {
+      require: './helpers/api_helper.js'
+    }
   },
   include: {
-    I: './steps_file.js'
+    I: './bdd_tests/steps_file.js'
   },
   mocha: {
     reporterOptions: {
@@ -19,8 +22,8 @@ exports.config = {
   teardown: null,
   hooks: [],
   gherkin: {
-    features: './features/*.feature',
-    steps: ['./step_definitions/steps.js']
+    features: './bdd_tests/features/*.feature',
+    steps: ['./bdd_tests/step_definitions/steps.js']
   },
   plugins: {
     screenshotOnFail: {
@@ -50,6 +53,6 @@ exports.config = {
       timeout: 0
     }
   ],
-  tests: './specs/**/*.specs.js',
+  tests: './integration_tests/*.specs.js',
   name: 'bdd_api_tests'
 }
