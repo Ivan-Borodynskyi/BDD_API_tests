@@ -19,7 +19,7 @@ const validResponseSchema = joi.object({
 
 
 Scenario('I make API POST request to validate Response', ({ I }) => {
-    I.performPostRequest(0,0,'EEEEE')
+    I.performPostRequest(0, 0, 'EEEEE')
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsKeys(['coords', 'patches']);
     I.seeResponseMatchesJsonSchema(validResponseSchema);
@@ -46,19 +46,19 @@ Feature('Tesing movement function');
 // Positive scenarios
 
 Scenario('Move hover from bootom left corner to bottom right', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEE" )
+    I.performPostRequest(0, 0, "EEEEE")
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [0, 4], patches: 0 })
 });
 
 Scenario('Move hover from top right corner to bootom left corner', ({ I }) => {
-    I.performPostRequest(4, 4, "WSWWSSWS" )
+    I.performPostRequest(4, 4, "WSWWSSWS")
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [0, 0], patches: 0 })
 });
 
 Scenario('Move hover around the perimeter of the room', ({ I }) => {
-    I.performPostRequest(0, 0, "NNNNEEEESSSSWWWW" )
+    I.performPostRequest(0, 0, "NNNNEEEESSSSWWWW")
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [0, 0], patches: 0 })
 });
@@ -66,7 +66,7 @@ Scenario('Move hover around the perimeter of the room', ({ I }) => {
 // Negative scenarios
 
 Scenario('Move hover outside the room', ({ I }) => {
-    I.performPostRequest(0, 0, "NNNNNNNN" )
+    I.performPostRequest(0, 0, "NNNNNNNN")
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [4, 0], patches: 0 })
 });
@@ -77,7 +77,7 @@ Scenario('Set initial coordinates of the hover outside the room', ({ I }) => {
 });
 
 Scenario('Set initial coordinates of the hover with negative numbers', ({ I }) => {
-    I.performPostRequest(-5, -3, "SSSS" )
+    I.performPostRequest(-5, -3, "SSSS")
     I.seeResponseCodeIsClientError();
 });
 
@@ -93,7 +93,7 @@ Scenario('Move hover from bootom left corner to bottom right with 1 patch', ({ I
 });
 
 Scenario('Move hover from bootom left corner to bottom right and back with 4 patches', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[1, 0], [2, 0], [3, 0], [4, 0]] )
+    I.performPostRequest(0, 0, "EEEEWWWWW", [[1, 0], [2, 0], [3, 0], [4, 0]])
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [4, 0], patches: 4 })
 });
@@ -101,12 +101,12 @@ Scenario('Move hover from bootom left corner to bottom right and back with 4 pat
 // Negative scenarios
 
 Scenario('Set initial coordinates of the patches outside the room', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[7, 0]] )
+    I.performPostRequest(0, 0, "EEEEWWWWW", [[7, 0]])
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Set coordinates of the patches with negative numbers', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[-2, -3]] )
+    I.performPostRequest(0, 0, "EEEEWWWWW", [[-2, -3]])
     I.seeResponseCodeIsClientError();
 });
 
