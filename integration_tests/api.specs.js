@@ -41,43 +41,43 @@ Scenario('I make API DELETE request to ensure it is not supported', ({ I }) => {
 });
 
 
-Feature('Tesing movement function');
+Feature('Testing movement function');
 
 // Positive scenarios
 
-Scenario('Move hover from bootom left corner to bottom right', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEE")
+Scenario('Move hover from top left corner to top right', ({ I }) => {
+    I.performPostRequest(0, 4, "EEEE")
     I.seeResponseCodeIsSuccessful();
-    I.seeResponseContainsJson({ coords: [0, 4], patches: 0 })
+    I.seeResponseContainsJson({ coords: [4, 4], patches: 0 })
 });
 
-Scenario('Move hover from top right corner to bootom left corner', ({ I }) => {
-    I.performPostRequest(4, 4, "WSWWSSWS")
+Scenario('Move hover from top right corner to bottom left corner', ({ I }) => {
+    I.performPostRequest(4, 4, "WSWWSSWS");
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [0, 0], patches: 0 })
 });
 
-Scenario('Move hover around the perimeter of the room', ({ I }) => {
-    I.performPostRequest(0, 0, "NNNNEEEESSSSWWWW")
+Scenario('Move hover around the perimeter of the room with 5 patches on the way', ({ I }) => {
+    I.performPostRequest(0, 0, "NNNNEEEESSSSWWWW", [[1, 0], [2, 0], [3, 0], [4, 0], [4, 3]]);
     I.seeResponseCodeIsSuccessful();
-    I.seeResponseContainsJson({ coords: [0, 0], patches: 0 })
+    I.seeResponseContainsJson({ coords: [0, 0], patches: 5 })
 });
 
 // Negative scenarios
 
 Scenario('Move hover outside the room', ({ I }) => {
-    I.performPostRequest(0, 0, "NNNNNNNN")
+    I.performPostRequest(0, 0, "NNNNNNNN");
     I.seeResponseCodeIsSuccessful();
     I.seeResponseContainsJson({ coords: [4, 0], patches: 0 })
 });
 
 Scenario('Set initial coordinates of the hover outside the room', ({ I }) => {
-    I.performPostRequest(6, 7, "EEEEE")
+    I.performPostRequest(6, 7, "EEEEE");
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Set initial coordinates of the hover with negative numbers', ({ I }) => {
-    I.performPostRequest(-5, -3, "SSSS")
+    I.performPostRequest(-5, -3, "SSSS");
     I.seeResponseCodeIsClientError();
 });
 
@@ -86,41 +86,41 @@ Feature('Testing cleaning function');
 
 // Positive scenarios
 
-Scenario('Move hover from bootom left corner to bottom right with 1 patch', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEE", [[1, 0]])
+Scenario('Move hover from bottom right corner to top right with 1 patch', ({ I }) => {
+    I.performPostRequest(4, 0, "NNNN", [[4, 3]]);
     I.seeResponseCodeIsSuccessful();
-    I.seeResponseContainsJson({ coords: [4, 0], patches: 1 })
+    I.seeResponseContainsJson({ coords: [4, 4], patches: 1 })
 });
 
-Scenario('Move hover from bootom left corner to bottom right and back with 4 patches', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[1, 0], [2, 0], [3, 0], [4, 0]])
+Scenario('Move hover from right center to left center and back with 3 patches', ({ I }) => {
+    I.performPostRequest(4, 2, "WWWWEEEE",[[3, 2],[2, 2], [1, 2]]);
     I.seeResponseCodeIsSuccessful();
-    I.seeResponseContainsJson({ coords: [4, 0], patches: 4 })
+    I.seeResponseContainsJson({ coords: [4, 2], patches: 3 })
 });
 
 // Negative scenarios
 
 Scenario('Set initial coordinates of the patches outside the room', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[7, 0]])
+    I.performPostRequest(0, 0, "EEEEWWWWW", [[7, 0]]);
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Set coordinates of the patches with negative numbers', ({ I }) => {
-    I.performPostRequest(0, 0, "EEEEWWWWW", [[-2, -3]])
+    I.performPostRequest(0, 0, "EEEEWWWWW", [[-2, -3]]);
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Missing instructions - value', ({ I }) => {
-    I.performPostRequest(0, 0)
+    I.performPostRequest(0, 0);
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Set instructions with random string', ({ I }) => {
-    I.performPostRequest(0, 0, "STRING")
+    I.performPostRequest(0, 0, "STRING");
     I.seeResponseCodeIsClientError();
 });
 
 Scenario('Set instructions with SQL injection', ({ I }) => {
-    I.performPostRequest(0, 0, "select * from users; DROP TABLE users;")
+    I.performPostRequest(0, 0, "select * from users; DROP TABLE users;");
     I.seeResponseCodeIsClientError();
 });

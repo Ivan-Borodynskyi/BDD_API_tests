@@ -1,7 +1,7 @@
 const { I } = inject();
 
 
-When('I move hover with init coords: [{int}, {int}] and path: {string} with 2 patches on the way', (init_x, init_y, path) => {
+When('I move hover with init coords: [{int}, {int}] and path: {string} with 2 patches', (init_x, init_y, path) => {
   I.performPostRequest(init_x, init_y, path)
 });
 
